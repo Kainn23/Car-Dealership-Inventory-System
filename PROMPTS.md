@@ -44,6 +44,14 @@
 - **Tool:** Gemini
 - **Summary:** Created `.github/workflows/ci.yml` defining automated CI jobs for backend-quality (Ruff lint/format, Mypy) and backend-tests (PostgreSQL 16 service, pytest with branch coverage).
 
+---
+
+### Session 7: Pre-Commit Configuration and Co-Authorship Audit (Step 2.7)
+- **Date:** 2026-10-25
+- **Tool:** Gemini
+- **Summary:** Added `.pre-commit-config.yaml` for automated Ruff formatting and conventional commit linting. Created `scripts/check_coauthors.sh` to audit Git commit history for mandatory `Co-authored-by:` trailers. Verified script execution.
+
+
 
 
 

@@ -37,6 +37,14 @@
 - **Tool:** Gemini
 - **Summary:** Initialized Alembic migrations and linked `alembic/env.py` to `settings.DATABASE_URL` and `Base.metadata`. Created `backend/tests/conftest.py` with session rollback fixtures and dependency overrides. Verified tests run cleanly.
 
+---
+
+### Session 6: GitHub Actions CI Pipeline (Step 2.6)
+- **Date:** 2026-10-25
+- **Tool:** Gemini
+- **Summary:** Created `.github/workflows/ci.yml` defining automated CI jobs for backend-quality (Ruff lint/format, Mypy) and backend-tests (PostgreSQL 16 service, pytest with branch coverage).
+
+
 
 
 

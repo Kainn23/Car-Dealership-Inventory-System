@@ -2,6 +2,7 @@
 
 from uuid import UUID
 
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.models.user import User
@@ -14,13 +15,18 @@ class SqlAlchemyUserRepository:
         self.db = db
 
     def create(self, user: User) -> User:
-        """Persist a new user. Stub for TDD Red phase."""
-        raise NotImplementedError("create is not implemented yet")
+        """Persist a new user into the database."""
+        self.db.add(user)
+        self.db.flush()
+        self.db.refresh(user)
+        return user
 
     def get_by_id(self, user_id: UUID) -> User | None:
-        """Retrieve user by UUID. Stub for TDD Red phase."""
-        raise NotImplementedError("get_by_id is not implemented yet")
+        """Retrieve user by UUID primary key."""
+        statement = select(User).where(User.id == user_id)
+        return self.db.execute(statement).scalar_one_or_none()
 
     def get_by_email(self, email: str) -> User | None:
-        """Retrieve user by email. Stub for TDD Red phase."""
-        raise NotImplementedError("get_by_email is not implemented yet")
+        """Retrieve user by case-insensitive email comparison."""
+        statement = select(User).where(func.lower(User.email) == email.lower())
+        return self.db.execute(statement).scalar_one_or_none()

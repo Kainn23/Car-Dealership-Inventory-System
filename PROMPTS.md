@@ -30,6 +30,14 @@
 - **Tool:** Gemini
 - **Summary:** Created branch `feature/db-health-check`. Created `docker-compose.yml` (PostgreSQL 16), `backend/app/core/config.py`, and `backend/app/db/session.py`. Updated `backend/tests/integration/test_health.py` to assert database connection status and 503 on failure. Verified red test failure (`assert 200 == 503`). Updated `backend/app/api/routes/health.py` with DB health verification dependency. Verified all tests pass (2 passed), ruff and mypy clean.
 
+---
+
+### Session 5: Alembic Setup and Test DB Fixtures (Step 2.5)
+- **Date:** 2026-10-25
+- **Tool:** Gemini
+- **Summary:** Initialized Alembic migrations and linked `alembic/env.py` to `settings.DATABASE_URL` and `Base.metadata`. Created `backend/tests/conftest.py` with session rollback fixtures and dependency overrides. Verified tests run cleanly.
+
+
 
 
 

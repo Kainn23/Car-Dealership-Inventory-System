@@ -5,7 +5,6 @@ from datetime import timedelta
 import jwt
 import pytest
 
-from app.core.config import settings
 from app.core.errors import InvalidTokenError
 from app.core.security import (
     create_access_token,
@@ -81,7 +80,7 @@ def test_jwt_rejects_expired_token() -> None:
 
 
 def test_jwt_rejects_tampered_signature() -> None:
-    """decode_access_token must raise InvalidTokenError if token signature was tampered."""
+    """decode_access_token must raise InvalidTokenError on tampered signature."""
     token = create_access_token(subject="user-123", role="user")
     header, payload, signature = token.split(".")
     tampered_token = f"{header}.{payload}.{signature[:-4]}xxxx"
@@ -96,7 +95,7 @@ def test_jwt_rejects_malformed_token() -> None:
 
 
 def test_jwt_rejects_unsupported_algorithm() -> None:
-    """decode_access_token must reject tokens signed with unsupported algorithms like none."""
+    """decode_access_token must reject tokens signed with unsupported algorithms."""
     unsecured_token = jwt.encode(
         {"sub": "user-123", "role": "admin"},
         key="",

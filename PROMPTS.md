@@ -51,6 +51,14 @@
 - **Tool:** Gemini
 - **Summary:** Added `.pre-commit-config.yaml` for automated Ruff formatting and conventional commit linting. Created `scripts/check_coauthors.sh` to audit Git commit history for mandatory `Co-authored-by:` trailers. Verified script execution.
 
+---
+
+### Session 8: Password Hashing TDD Red Phase (Step 3.1)
+- **Date:** 2026-10-25
+- **Tool:** Gemini
+- **Summary:** Created branch `feature/auth-password-hashing`. Added 5 unit tests in `backend/tests/unit/test_security.py` covering plaintext exclusion, salt uniqueness, correct password verification, wrong password rejection, and malformed hash handling. Added behavioral stubs in `backend/app/core/security.py`. Verified red test execution (5 failed on NotImplementedError).
+
+
 
 
 

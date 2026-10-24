@@ -58,6 +58,14 @@
 - **Tool:** Gemini
 - **Summary:** Created branch `feature/auth-password-hashing`. Added 5 unit tests in `backend/tests/unit/test_security.py` covering plaintext exclusion, salt uniqueness, correct password verification, wrong password rejection, and malformed hash handling. Added behavioral stubs in `backend/app/core/security.py` and committed red phase (`9f275b6`). Implemented Argon2 hashing and safe exception handling in `backend/app/core/security.py`. Verified all 5 unit tests and 2 integration regression tests passed (7 passed in 0.96s), and verified ruff and mypy are clean.
 
+---
+
+### Session 9: JWT Authentication TDD Red Phase (Step 3.2)
+- **Date:** 2026-10-25
+- **Tool:** Gemini
+- **Summary:** Created branch `feature/auth-jwt`. Created `backend/app/core/errors.py` with `InvalidTokenError` and domain errors. Added 5 JWT unit tests in `backend/tests/unit/test_security.py` covering claims, expiry, tampering, malformed tokens, and unsupported algorithms. Added stubs in `backend/app/core/security.py` and observed red failure (5 failed with NotImplementedError).
+
+
 
 
 

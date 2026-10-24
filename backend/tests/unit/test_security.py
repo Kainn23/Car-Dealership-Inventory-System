@@ -1,6 +1,18 @@
-"""Unit tests for password hashing and verification in core/security.py."""
+"""Unit tests for password hashing and JWT security in core/security.py."""
 
-from app.core.security import hash_password, verify_password
+from datetime import timedelta
+
+import jwt
+import pytest
+
+from app.core.config import settings
+from app.core.errors import InvalidTokenError
+from app.core.security import (
+    create_access_token,
+    decode_access_token,
+    hash_password,
+    verify_password,
+)
 
 
 def test_hash_password_does_not_contain_plaintext() -> None:
@@ -44,3 +56,51 @@ def test_verify_password_handles_malformed_hash_gracefully() -> None:
     ]
     for bad_hash in malformed_hashes:
         assert verify_password(plain_password, bad_hash) is False
+
+
+def test_jwt_carries_subject_and_role_and_timestamps() -> None:
+    """create_access_token must embed sub, role, iat, and exp claims."""
+    token = create_access_token(subject="user-123", role="user")
+    payload = decode_access_token(token)
+    assert payload["sub"] == "user-123"
+    assert payload["role"] == "user"
+    assert "iat" in payload
+    assert "exp" in payload
+    assert payload["exp"] > payload["iat"]
+
+
+def test_jwt_rejects_expired_token() -> None:
+    """decode_access_token must raise InvalidTokenError when token has expired."""
+    token = create_access_token(
+        subject="user-123",
+        role="user",
+        expires_delta=timedelta(seconds=-10),
+    )
+    with pytest.raises(InvalidTokenError, match="Invalid or expired token"):
+        decode_access_token(token)
+
+
+def test_jwt_rejects_tampered_signature() -> None:
+    """decode_access_token must raise InvalidTokenError if token signature was tampered."""
+    token = create_access_token(subject="user-123", role="user")
+    header, payload, signature = token.split(".")
+    tampered_token = f"{header}.{payload}.{signature[:-4]}xxxx"
+    with pytest.raises(InvalidTokenError):
+        decode_access_token(tampered_token)
+
+
+def test_jwt_rejects_malformed_token() -> None:
+    """decode_access_token must raise InvalidTokenError on non-JWT strings."""
+    with pytest.raises(InvalidTokenError):
+        decode_access_token("this.is.not-a-valid-jwt")
+
+
+def test_jwt_rejects_unsupported_algorithm() -> None:
+    """decode_access_token must reject tokens signed with unsupported algorithms like none."""
+    unsecured_token = jwt.encode(
+        {"sub": "user-123", "role": "admin"},
+        key="",
+        algorithm="none",
+    )
+    with pytest.raises(InvalidTokenError):
+        decode_access_token(unsecured_token)

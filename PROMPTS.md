@@ -16,3 +16,11 @@
 - **Tool:** Gemini
 - **Summary:** Generated `backend/pyproject.toml`, `backend/app/main.py` (FastAPI app factory), `backend/app/__init__.py`, and `backend/tests/__init__.py`. Created virtual environment and installed dependencies with dev tooling. Verified `ruff` and `mypy` run cleanly.
 
+---
+
+### Session 3: Health Endpoint TDD - Red Phase (Step 2.3)
+- **Date:** 2026-10-25
+- **Tool:** Gemini
+- **Summary:** Created branch `feature/health-endpoint`. Added integration test `backend/tests/integration/test_health.py` checking `GET /health` returns 200. Executed pytest and confirmed behavioral failure (`404 != 200`).
+
+

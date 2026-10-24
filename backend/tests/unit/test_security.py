@@ -34,7 +34,7 @@ def test_verify_password_fails_with_incorrect_password() -> None:
 
 
 def test_verify_password_handles_malformed_hash_gracefully() -> None:
-    """verify_password must return False when given a corrupted or invalid hash without raising unhandled errors."""
+    """verify_password must return False on corrupted or invalid hashes."""
     plain_password = "AnyPassword"
     malformed_hashes = [
         "not_an_argon2_hash",
